@@ -1,0 +1,19 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EmployeeFilesApp.Models
+{
+    public class Department
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int DepartmentId { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string DepartmentName { get; set; }
+
+        public ICollection<Employee> Employees { get; set; }
+        public ICollection<FileRecord> Files { get; set; }
+    }
+}
