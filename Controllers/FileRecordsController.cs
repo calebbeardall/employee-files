@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EmployeeFilesApp.Data;
+
 using EmployeeFilesApp.Models;
 
 namespace EmployeeFilesApp.Controllers
 {
     public class FileRecordsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public FileRecordsController(AppDbContext context)
+        public FileRecordsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,8 +22,8 @@ namespace EmployeeFilesApp.Controllers
         // GET: FileRecords
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.FileRecords.Include(f => f.Department).Include(f => f.Employee);
-            return View(await appDbContext.ToListAsync());
+            var ApplicationDbContext = _context.FileRecords.Include(f => f.Department).Include(f => f.Employee);
+            return View(await ApplicationDbContext.ToListAsync());
         }
 
         // GET: FileRecords/Details/5

@@ -1,20 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace EmployeeFilesApp.Models
+namespace EmployeeFilesApp.Models;
+
+[Index("DepartmentId", Name = "IX_Employees_DepartmentId")]
+public partial class Employee
 {
-    public class Employee
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int EmployeeId { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
+    [Key]
+    public int EmployeeId { get; set; }
 
+    public string FullName { get; set; } = null!;
 
-        public int DepartmentId { get; set; }
-        public Department Department { get; set; }
+    public string Email { get; set; } = null!;
 
-        public ICollection<FileRecord> Files { get; set; }
-    }
+    public int DepartmentId { get; set; }
+
+    [ForeignKey("DepartmentId")]
+    [InverseProperty("Employees")]
+    public virtual Department Department { get; set; } = null!;
+
+    [InverseProperty("Employee")]
+    public virtual ICollection<FileRecord> FileRecords { get; set; } = new List<FileRecord>();
 }

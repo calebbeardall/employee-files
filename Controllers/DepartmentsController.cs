@@ -5,19 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EmployeeFilesApp.Data;
 using EmployeeFilesApp.Models;
+using EmployeeFilesApp.Services;
 
 namespace EmployeeFilesApp.Controllers
 {
     public class DepartmentsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private readonly DepartmentService _departmentService;
 
-        public DepartmentsController(AppDbContext context)
+        public DepartmentsController(ApplicationDbContext context, DepartmentService departmentService)
         {
             _context = context;
+            _departmentService = departmentService;
         }
+
 
         // GET: Departments
         public async Task<IActionResult> Index()
@@ -49,22 +52,15 @@ namespace EmployeeFilesApp.Controllers
             return View();
         }
 
-        // POST: Departments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DepartmentId,DepartmentName")] Department department)
+        public IActionResult Create(string departmentName)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(department);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            _departmentService.AddNewDepartment(departmentName);
 
-            return View(department);
+            return RedirectToAction("Index", "Home");
         }
+
+
 
         // GET: Departments/Edit/5
         public async Task<IActionResult> Edit(int? id)

@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EmployeeFilesApp.Data;
+
 using EmployeeFilesApp.Models;
 
 namespace EmployeeFilesApp.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EmployeesController(AppDbContext context)
+        public EmployeesController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,8 +22,8 @@ namespace EmployeeFilesApp.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Employees.Include(e => e.Department);
-            return View(await appDbContext.ToListAsync());
+            var ApplicationDbContext = _context.Employees.Include(e => e.Department);
+            return View(await ApplicationDbContext.ToListAsync());
         }
 
         // GET: Employees/Details/5
